@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>books</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@500&display=swap" rel="stylesheet">
+	<script type="text/javascript" src="script.js"></script>
+</head>
+<body onload="onLoadBody()">
+	<div class="wrap">
+		<h1>Любимые книги</h1>
+		<div class="list" id="books-like">
+			
+			<div class="drop-down" id="drop-like">DROP DOWN AREA</div>
+		</div>
+
+		<h1>Список книг</h1>
+		<div class="list" id="books-list">
+			<div class="list__book" draggable="true" name='lb' 
+				ondragstart="move(this.id)">
+				<div class="list__book__name">
+					<h2>-</h2>
+					<h2>Book number 1</h2>
+				</div>
+				<div>
+					<button class="btn" name="edit">РЕД.</button>
+					<button class="btn" name="read">прочитана</button>
+					<button class="btn" name="check">Читать</button>
+					<button class="btn" name="del">X</button>
+				</div>
+			</div>
+			<div class="drop-down" id="drop-list">DROP DOWN AREA</div>
+		</div>
+		<h1>Добавить книгу</h1>
+		<div class="list">
+			<div class="list__radio" onclick="ShowFileBlock()">
+				<input type="radio" name="add-book" id="upload">
+				<label for="upload">Загрузить книгу</label>
+			</div>
+			<div class="list__radio" onclick="ShowWriteBlock()">
+				<input type="radio" name="add-book" id="write">
+				<label for="write">Написать самому</label>
+			</div>
+			<div id="list__upload">
+				<label for="select-file">Название</label>
+				<form class="add-form">
+					<input type="text" name="bookName">
+					<input type="file" name="bookFile" id="add-form__file">
+					<input type="submit" name="" value="Отправить">
+				</form>
+			</div>
+			<div id="list__self">
+				<form id="form-write">
+					<div class="list__write">
+						<input type="text" name="name" required placeholder="Заголовок" 
+						id="name-book">
+					</div>
+					<div class="list__write">
+						<input type="text" name="discription" required placeholder="Описание"
+						id="discription-book">
+					</div>
+					<input type="submit" value="Отправить" name="">
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="check">
+		<div class="check__read">
+			<h1></h1>
+			<P></P>
+		</div>
+		<div class="check__edit">
+			<input type="text" name="" placeholder="book name" id="edit-name" 
+				required>
+			<textarea class="edit-text"></textarea>
+			<button class="btn" onclick="SaveBook()">СОХРАНИТЬ</button>
+		</div>
+	</div>
+</body>
+</html>

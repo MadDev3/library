@@ -1,0 +1,224 @@
+
+let booksList;
+let booksLike;
+let elem;
+let clone;
+var els;
+var reads;
+var bookId;
+
+var checks;
+var edits;
+
+let zone1;
+let zone2;
+
+var books = [];
+var favorite = [];
+
+
+
+
+function onLoadBody(){
+	zone1 = document.querySelector('#drop-like');
+	zone2 = document.querySelector('#drop-list');
+	booksList = document.querySelector('#books-list');
+	booksLike = document.querySelector('#books-like');
+	elem = booksList.querySelector('.list__book');
+	clone = elem.cloneNode(true);
+	clone.style.display = "flex";
+	if (localStorage.getItem('books')) {
+		for(var i = 0;i < books.length;i++){
+		let first = booksList.firstChild;
+		let newClone = clone.cloneNode(true);
+		newClone.setAttribute('id',i);
+		newClone.children[0].children[1].innerHTML = books[i].file;
+		booksList.insertBefore(newClone,first);
+	}
+	}
+	if(localStorage.getItem('favorite')){
+		for(var i = 0; i < favorite.length; i++){
+			let first = booksLike.firstChild;
+			let newClone = clone.cloneNode(true);
+			newClone.setAttribute('id',i);
+			newClone.children[0].children[1].innerHTML = favorite[i].file;
+			booksLike.insertBefore(newClone,first);
+		}
+	}
+	Drag();
+	RemoveBook();
+	ReadBook();
+	ShowBook();
+	EditBook();
+}
+
+function move(id){
+	let newClone = document.getElementById(id).cloneNode(true);
+	zone1.ondrop = function(){
+		let first = booksLike.firstChild;
+		booksLike.insertBefore(newClone,first);
+		const book = {
+			num: id,
+			file: books[id].file
+		};
+		favorite.push(book);
+		localStorage.setItem("favorite",JSON.stringify(favorite));
+		RemoveBook();
+		ReadBook();
+		ShowBook();
+		EditBook();
+}
+}
+
+function Drag(){
+	zone1.ondragover = allowDrop;
+
+	function allowDrop(event){
+		event.preventDefault();
+	}
+}
+
+function ShowBook(){
+	checks = document.getElementsByName('check');
+	checks.forEach(function(item){
+		item.addEventListener("click",function(){
+			document.querySelector(".check__read").style.display = "block";
+			document.querySelector(".check__edit").style.display = "none";
+			bookId = item.closest(".list__book").getAttribute('id');
+			document.querySelector(".check").children[0].children[0].innerHTML = books[bookId].file;
+			document.querySelector(".check").children[0].children[1].innerHTML = books[bookId].login;
+		});
+	});
+}
+
+function EditBook(){
+	edits = document.getElementsByName('edit');
+	edits.forEach(function(item){
+		item.addEventListener("click",function(){
+			document.querySelector(".check__edit").style.display = "flex";
+			document.querySelector(".check__read").style.display = "none";
+			bookId = item.closest(".list__book").getAttribute('id');
+			document.querySelector("#edit-name").value = books[bookId].file;
+			document.querySelector(".check").children[1].children[1].innerHTML = books[bookId].login;
+		});
+	});
+}
+
+function SaveBook(){
+	if (document.querySelector("#edit-name").value) {
+		books[bookId].file = document.querySelector("#edit-name").value;
+		books[bookId].login = document.querySelector(".edit-text").value;
+		document.getElementById(bookId).children[0].children[1].innerHTML =
+		books[bookId].file;
+		//let qwe = document.querySelector("#books-list");
+		//qwe.querySelector("#"+bookId).children[0].children[1].innerHTML =
+		//books[bookId].file;
+		localStorage.setItem('books', JSON.stringify(books));
+		document.querySelector(".check__edit").style.display = "none";
+	}
+}
+
+function ReadBook(){
+	reads = document.getElementsByName('read');
+	reads.forEach(function(item){
+		item.addEventListener("click",function(){
+			item.closest(".list__book").style.backgroundColor = "#ABB2B9";
+			item.closest('.list__book').children[1].children[1].innerHTML = "прочитал"
+		});
+	});
+}
+
+function RemoveBook(){
+	els = document.getElementsByName('del');
+	els.forEach(function(item){
+		item.addEventListener("click",function(){
+			
+			
+			item.closest(".list__book").remove();
+			books.splice(item.closest(".list__book").getAttribute('id'),1);
+			localStorage.setItem('books', JSON.stringify(books));
+			//localStorage.removeItem("books"[item.closest(".list__book").getAttribute('id'),1])
+			
+		});
+	});
+}
+
+
+function ShowFileBlock(){
+	document.getElementById("list__upload").style.display = "block";
+	document.getElementById("list__self").style.display = "none";
+}
+
+function ShowWriteBlock(){
+	document.getElementById("list__self").style.display = "block";
+	document.getElementById("list__upload").style.display = "none";
+}
+
+if(localStorage.getItem('books')){
+	books = JSON.parse(localStorage.getItem('books'));
+}
+
+if (localStorage.getItem('favorite')) {
+	favorite = JSON.parse(localStorage.getItem('favorite'));
+}
+
+
+function submitFile(event){
+	event.preventDefault();
+	const file = this.elements['add-form__file'].files[0];
+	this.elements['add-form__file'].value = "";
+	const form = new FormData(event.target);
+	form.append('login','login value');
+	form.append('file',file);
+	fetch('https://apiinterns.osora.ru/',
+		{method: 'POST',
+		body: form}).then((res)=>res.json())
+		.then((data)=>{
+			const book = {
+				login: data.text,
+				file: data.title,
+			};
+
+			books.push(book);
+
+			localStorage.setItem('books', JSON.stringify(books));
+
+			let first = booksList.firstChild;
+			let newClone = clone.cloneNode(true);
+			newClone.setAttribute('id',books.length-1);
+			newClone.children[0].children[1].innerHTML = book.file;
+			booksList.insertBefore(newClone,first);
+			RemoveBook();
+			ReadBook();
+			ShowBook();
+			EditBook();
+		});
+}
+
+function submitTitle(event){
+	event.preventDefault();
+	const book = {
+		login: this.elements['discription-book'].value,
+		file: this.elements['name-book'].value
+	};
+	books.push(book);
+	localStorage.setItem('books', JSON.stringify(books));
+	let first = booksList.firstChild;
+	let newClone = clone.cloneNode(true);
+	newClone.setAttribute('id',books.length-1);
+	newClone.children[0].children[1].innerHTML = this.elements['name-book'].value;
+	booksList.insertBefore(newClone,first);
+	this.elements['name-book'].value = "";
+	this.elements['discription-book'].value = "";
+	RemoveBook();
+	ReadBook();
+	ShowBook();
+	EditBook();
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+	document.querySelector('.add-form').addEventListener('submit',submitFile);
+	document.querySelector('#form-write').addEventListener('submit',submitTitle);
+});
+
+

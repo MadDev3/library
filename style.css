@@ -1,0 +1,152 @@
+
+*{
+	margin: 0;
+	padding: 0;
+	font-family: 'Mulish', sans-serif;
+}
+
+body{
+	background-color: #E1E1E1;
+	display: flex;
+}
+
+.drop-down{
+	width: 100%;
+	border: 2px dotted black;
+	text-align: center;
+	padding: 15px 0;
+	font-weight: 800;
+	background-color: #E1E1E1
+}
+
+.check{
+	width: 49%;
+	margin-left: 5%;
+	margin-right: 1%;
+	background-color: #EAEAEA;
+	height: auto;
+}
+
+.check__edit{
+	padding: 10px 20px;
+	display: none;
+	flex-direction: column;
+}
+
+.check__edit input{
+	height: 40px;
+	width: 40%;
+	font-size: 18px;
+	margin-top: 10px;
+	border: 2px solid black;
+	font-size: 20px;
+	padding: 10px 20px;
+}
+
+.check__edit textarea{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	min-height: 300px;
+	font-size: 18px;
+	border: 2px solid black;
+	padding: 10px 10px;
+}
+
+.check__edit button{
+	padding: 15px 0;
+}
+
+.check h1{
+	margin-left: 50px;
+	margin-top: 50px;
+}
+
+.check p{
+	margin-left: 20px;
+}
+
+.wrap{
+	margin-top: 20px;
+	width: 40%;
+	margin-left: 5%;
+}
+
+.wrap h1{
+	font-size: 50px;
+	margin-top: 50px;
+	margin-bottom: 20px;
+}
+
+.list{
+	width: 100%;
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	padding: 20px 20px;
+	margin-bottom: 100px;
+}
+
+.list__book{
+	padding: 10px 10px;
+	display: none;
+	justify-content: space-between;
+	margin: 5px 0px;
+	align-items: center;
+}
+
+.list__book__name{
+	display: flex;
+}
+
+.btn{
+	background-color: white;
+	border: 2px solid black;
+	border-radius: 7px;
+	font-family: 'Mulish', sans-serif;
+	font-size: 18px;
+	font-weight: 600;
+	padding: 2px 20px;
+	text-transform: uppercase;
+}
+
+.list__radio{
+	font-size: 25px;
+	display: flex;
+	align-items: center;
+}
+
+.list__radio label{
+	margin-left: 10px;
+}
+
+.list__write{
+	width: 100%;
+	display: flex;
+}
+
+.list__write input{
+	margin-top: 10px;
+	padding: 0;
+	width: 100%;
+	border: 2px solid black;
+	font-size: 20px;
+	padding: 10px 20px;
+}
+
+.list__write textarea{
+	margin-top: 10px;
+	padding: 0;
+	width: 100%;
+	border: 2px solid black;
+	font-size: 20px;
+	padding: 10px 20px;
+	height: 150px;
+}
+
+#list__upload{
+	display: none;
+}
+
+#list__self{
+	display: none;
+}
