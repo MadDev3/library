@@ -94,7 +94,11 @@ function move(id){
 			file: books[id].file,
 			read: books[id].read
 		};
+		
 		booksList.children[(booksList.children.length-3)-id].remove();
+		for(var i = 0; i < booksList.children.length-2; i++){
+			booksList.children[i].setAttribute('id',booksList.children.length-3-i);
+		}
 		books.splice(id,1);
 		localStorage.setItem("books",JSON.stringify(books));
 		favorite.push(book);
@@ -116,6 +120,9 @@ function move(id){
 			read: favorite[id.slice(1)].read
 		};
 		booksLike.children[(booksLike.children.length-2)-(id.slice(1))].remove();
+		for(var i = 0; i < booksLike.children.length-1; i++){
+			booksLike.children[i].setAttribute('id',"l"+(booksLike.children.length-2-i));
+		}
 		favorite.splice(id.slice(0,1),1);
 		localStorage.setItem("favorite",JSON.stringify(favorite));
 		books.push(book);
@@ -166,12 +173,12 @@ function EditBook(){
 			if(item.closest("#books-list")){
 				bookId = item.closest(".list__book").getAttribute('id');
 				document.querySelector("#edit-name").value = books[bookId].file;
-				document.querySelector(".check").children[1].children[1].innerHTML = books[bookId].login;
+				document.querySelector(".edit-text").value = books[bookId].login;
 			}
 			else if(item.closest("#books-like")){
 				bookId = item.closest(".list__book").getAttribute('id');
 				document.querySelector("#edit-name").value = favorite[bookId.slice(1)].file;
-				document.querySelector(".check").children[1].children[1].innerHTML = favorite[bookId.slice(1)].login;
+				document.querySelector(".edit-text").value = favorite[bookId.slice(1)].login;
 			}
 		});
 	});
